@@ -1,0 +1,10 @@
+div
+  md-card
+    md-card-content
+      .button-container()
+        .key-button-container(layout="row")
+          .key-button(ng-repeat="i in [1,2]")
+            | button
+        .key-button-container(layout="row")
+          .key-button.key-button-bottom(ng-repeat="i in [1,2]")
+            | button 

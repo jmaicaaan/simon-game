@@ -1,11 +1,14 @@
 class HomeController {
-  constructor() {
+  constructor($state) {
     "ngInject";
+    this._$state = $state;
     this.text = 'Hola Amigo';
     this.init();
   };
   
-  init = () => {};
+  init = () => {
+    this._$state.go('simon');
+  };
 }
 
 export default HomeController;
