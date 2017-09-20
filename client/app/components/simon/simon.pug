@@ -2,9 +2,5 @@ div
   md-card
     md-card-content
       .button-container()
-        .key-button-container(layout="row")
-          .key-button(ng-repeat="i in [1,2]")
-            | button
-        .key-button-container(layout="row")
-          .key-button.key-button-bottom(ng-repeat="i in [1,2]")
-            | button 
+        .key-button(ng-repeat="i in [1,2,3,4]" ng-class="{ 'key-button-backslash': (i == '2' || i == '3') }")
+          | button

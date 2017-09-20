@@ -2,9 +2,11 @@
   color: red;
 }
 
-// .button-container {
-//   display: grid;
-// }
+.button-container {
+  display: grid;
+  grid-template-columns: 100px 100px;
+  grid-template-rows: auto;
+}
 
 .key-button {
   border: 1px solid black;
@@ -14,7 +16,6 @@
   transform: rotate(150deg);
 }
 
-.key-button-bottom {
-  border: 1px solid red;
+.key-button-backslash {
   transform: rotate(30deg);
 }
