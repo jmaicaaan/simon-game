@@ -1,3 +1,6 @@
+$key-button-height: 75px;
+$key-button-width: 75px;
+
 .simon {
   color: red;
 }
@@ -5,17 +8,36 @@
 .button-container {
   display: grid;
   grid-template-columns: 100px 100px;
+  grid-template-areas: 
+    "a b"
+    "c d";
   grid-template-rows: auto;
+  border-radius: 25px;
+  width: 60%;
+  border: 1px solid black;
+}
+
+.key-button-1 {
+  grid-area: a;
+  background-color: red;
+}
+
+.key-button-2 {
+  grid-area: b;
+}
+
+.key-button-3 {
+  grid-area: c;
+}
+
+.key-button-4 {
+  grid-area: d;
 }
 
 .key-button {
   border: 1px solid black;
-  width: 200px;
-  height: 50px;
+  width: $key-button-width;
+  height: $key-button-height;
   border-radius: 25px;
-  transform: rotate(150deg);
-}
-
-.key-button-backslash {
-  transform: rotate(30deg);
+  background-color: pink;
 }
