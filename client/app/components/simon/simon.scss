@@ -1,5 +1,9 @@
 $key-button-height: 75px;
 $key-button-width: 75px;
+$key-button-green: #00a74a;
+$key-button-red: #9f0f17;
+$key-button-yellow: #cca707;
+$key-button-blue: #094a8f;
 
 .simon {
   color: red;
@@ -13,25 +17,28 @@ $key-button-width: 75px;
     "c d";
   grid-template-rows: auto;
   border-radius: 25px;
-  width: 60%;
+  width: max-content;
   border: 1px solid black;
 }
 
 .key-button-1 {
   grid-area: a;
-  background-color: red;
+  background-color: $key-button-green;
 }
 
 .key-button-2 {
   grid-area: b;
+  background-color: $key-button-red;
 }
 
 .key-button-3 {
   grid-area: c;
+  background-color: $key-button-yellow;
 }
 
 .key-button-4 {
   grid-area: d;
+  background-color: $key-button-blue;
 }
 
 .key-button {
@@ -39,5 +46,11 @@ $key-button-width: 75px;
   width: $key-button-width;
   height: $key-button-height;
   border-radius: 25px;
-  background-color: pink;
+  margin: 15px 5px 15px 10px;
+}
+
+.count-view-container {
+  position: relative;
+  bottom: 115px;
+  text-align: right;
 }

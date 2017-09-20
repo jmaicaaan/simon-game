@@ -1,6 +1,18 @@
 div
   md-card
+    md-card-header
+      .switch-container
+        .power-switch-button-container
+          md-switch.md-primary(ng-model="$ctrl.powerSwitch")
+            | Power {{ $ctrl.powerSwitch ? 'Off' : 'On' }}
+        .strict-switch-button-container
+          md-switch.md-primary(ng-model="$ctrl.strictSwitch")
+            | Strict mode
+        .start-switch-button-container
+           md-switch.md-primary(ng-model="$ctrl.startSwitch")
+            | Start
     md-card-content
-      .button-container()
+      .button-container
         .key-button(ng-repeat="i in $ctrl.buttons" ng-class="i.class" ng-click="$ctrl.test(i)")
-          | button/
+        .count-view-container
+          | {{ $ctrl.countCounter }}
