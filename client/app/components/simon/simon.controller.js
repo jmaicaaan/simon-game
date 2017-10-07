@@ -32,39 +32,24 @@ class SimonController {
   };
 
   compareKeys = () => {
-    let _copyDemoKeys = angular.copy(this.demoKeys);
-    if (this.userKeys.length === this.demoKeys.length) {
-      if (this.userKeys[0] === this.demoKeys[0]) { // compare first input since 
-        this._$timeout(() => {
-          this.playDemoKeys();
-          this.userKeys = [];
-        }, 1000);
-      }
-      else {
-        // restart game
-        console.log('wrong input', );
-        console.log('this.userKeys[0]', this.userKeys[0]);
-        console.log('this.demoKeys[0]', this.demoKeys[0]);
+    let gameRestarted = false;
+    this.userKeys.forEach((userKey, index) => {
+      let demoKey = this.demoKeys[index];
+      if (userKey !== demoKey) {
         this.restartGame();
+        gameRestarted = true;
       }
-    } else {
-      // compare the userkeys to demoKeys
-      // compare the userkey's last pop item to the first of demoKeys
-      let _copyDemoKeys = angular.copy(this.demoKeys);
-      while (this.userKeys.length > 0) {
-        let userKey = this.userKeys.pop();
-        let demoKey = _copyDemoKeys.shift();
-        console.log('userKey', userKey);
-        console.log('demoKey', demoKey);
-        if (userKey !== demoKey) {
-          this.restartGame();
-          return false;
-        }
-      }
+    });
+
+    if (gameRestarted) {
+      return;
     }
-    console.log('this.userKeys', this.userKeys);
-    console.log('this.demoKeys', this.demoKeys);
-    // this.playDemoKeys();
+    if (this.userKeys.length === this.demoKeys.length) {
+      this._$timeout(() => {
+        this.playDemoKeys();
+        this.userKeys = [];
+      }, 1000);
+    }
   };
 
   getRandomNumber = () => {
