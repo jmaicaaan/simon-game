@@ -12,6 +12,8 @@ class SimonController {
     this.isDemo = true;
     this.isStrictMode = false;
     this.isUserPressedWrongKey = false;
+    this.round = 1;
+    this.totalRounds = 20;
     this.init();
   }
 
@@ -50,9 +52,17 @@ class SimonController {
     }
     if (this.userKeys.length === this.demoKeys.length) {
       this.isUserPressedWrongKey = false;
+      if (this.round === this.totalRounds) {
+        alert('Game is done!');
+        this.userKeys = [];
+        this.round = 1;
+        this.start(true);
+        return;
+      }
       this._$timeout(() => {
         this.playDemoKeys();
         this.userKeys = [];
+        this.round++;
       }, 1000);
     }
   };
@@ -123,6 +133,7 @@ class SimonController {
     this.userKeys = [];
     if (this.isStrictMode) {
       this.start(true);
+      this.round = 1;
       alert('Game will reset');
       return;
     }
