@@ -10,6 +10,8 @@ class SimonController {
     this.demoKeys = [];
     this.userKeys = [];
     this.isDemo = true;
+    this.isStrictMode = false;
+    this.isUserPressedWrongKey = false;
     this.init();
   }
 
@@ -36,8 +38,10 @@ class SimonController {
     this.userKeys.forEach((userKey, index) => {
       let demoKey = this.demoKeys[index];
       if (userKey !== demoKey) {
-        this.restartGame();
+        alert('You pressed the wrong key!');
+        this.isUserPressedWrongKey = true;
         gameRestarted = true;
+        this.restartGame();
       }
     });
 
@@ -45,6 +49,7 @@ class SimonController {
       return;
     }
     if (this.userKeys.length === this.demoKeys.length) {
+      this.isUserPressedWrongKey = false;
       this._$timeout(() => {
         this.playDemoKeys();
         this.userKeys = [];
@@ -92,8 +97,12 @@ class SimonController {
   };
   
   playDemoKeys = () => {
-    this.isDemo = true;    
-    this.addDemoKey();
+    this.isDemo = true;
+    
+    if (!this.isUserPressedWrongKey) {
+      this.addDemoKey();
+    }
+    
     let promise = Promise.resolve();
 
     for (let i = 0; i <= this.demoKeys.length - 1; i++) {
@@ -110,15 +119,20 @@ class SimonController {
   };
 
   restartGame = () => {
-    alert('Game will reset');
-    this.demoKeys = [];
-    this.userKeys = [];
     this.isDemo = true;
+    this.userKeys = [];
+    if (this.isStrictMode) {
+      this.start(true);
+      alert('Game will reset');
+      return;
+    }
     this.start();
   };
 
   start = (clearDemoKeys) => {
-    if (clearDemoKeys) this.demoKeys = [];
+    if (clearDemoKeys) {
+       this.demoKeys = [];
+    }
     if (this.isDemo) {
       this.playDemoKeys();
     }
