@@ -1,17 +1,21 @@
 import * as _ from 'lodash';
 
 class SimonController {
-  constructor($state, $stateParams, $timeout, $q) {
+  constructor($timeout, $q, $scope) {
     "ngInject";
     this._$timeout = $timeout;
     this._$q = $q;
+    this.$scope = $scope;
     this.name = 'simon';
+    this.isDemo = true;
+    this.isStrictMode = true;
+    this.isUserPressedWrongKey = false;
+    this.isStart = true;
+    this.isPowerOn = false;
+    this.gameHasStarted = false;
     this.buttons = [];
     this.demoKeys = [];
     this.userKeys = [];
-    this.isDemo = true;
-    this.isStrictMode = false;
-    this.isUserPressedWrongKey = false;
     this.round = 1;
     this.totalRounds = 20;
     this.init();
@@ -20,6 +24,7 @@ class SimonController {
   init = () => {
     this.initializeButtons();
     this.start();
+    this.startWatching();
   };
 
   initializeButtons = () => {
@@ -137,16 +142,37 @@ class SimonController {
       alert('Game will reset');
       return;
     }
-    this.start();
+    // this.start();
   };
 
   start = (clearDemoKeys) => {
-    if (clearDemoKeys) {
-       this.demoKeys = [];
+    if (this.isPowerOn && this.isStart) {
+      if (clearDemoKeys) {
+        this.demoKeys = [];
+      }
+      if (this.isDemo) {
+        this.playDemoKeys();
+      }
     }
-    if (this.isDemo) {
-      this.playDemoKeys();
-    }
+  };
+
+  startWatching = () => {
+    console.log('1', 1);
+    this.$scope.$watch(() => {
+      return this.isPowerOn;
+    }, (newVal, oldVal) => {
+      if (this.isStart && newVal) {
+        this.start();
+      }
+    });
+
+    this.$scope.$watch(() => {
+      return this.isStart;
+    }, (newVal, oldVal) => {
+      if (this.isPowerOn && newVal) {
+        this.start();
+      }
+    });
   };
 }
 

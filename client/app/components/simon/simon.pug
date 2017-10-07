@@ -3,13 +3,13 @@ div
     md-card-header
       .switch-container
         .power-switch-button-container
-          md-switch.md-primary(ng-model="$ctrl.powerSwitch")
-            | Power {{ $ctrl.powerSwitch ? 'Off' : 'On' }}
+          md-switch.md-primary(ng-model="$ctrl.isPowerOn")
+            | Power {{ $ctrl.isPowerOn ? 'Off' : 'On' }}
         .strict-switch-button-container
-          md-switch.md-primary(ng-model="$ctrl.strictSwitch")
+          md-switch.md-primary(ng-model="$ctrl.isStrictMode")
             | Strict mode
         .start-switch-button-container
-           md-switch.md-primary(ng-model="$ctrl.startSwitch")
+           md-switch.md-primary(ng-model="$ctrl.isStart")
             | Start
     md-card-content
       .button-container
