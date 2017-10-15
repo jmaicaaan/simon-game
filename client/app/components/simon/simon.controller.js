@@ -13,6 +13,7 @@ class SimonController {
     this.isStart = true;
     this.isPowerOn = false;
     this.gameHasStarted = false;
+    this.gameHasRestarted = false;
     this.buttons = [];
     this.demoKeys = [];
     this.userKeys = [];
@@ -40,6 +41,14 @@ class SimonController {
     this.demoKeys.push(this.getRandomNumber());
   };
 
+  clearDemoKeys = () => {
+    this.demoKeys = [];
+  };
+
+  clearUserKeys = () => {
+    this.userKeys = [];
+  }
+
   compareKeys = () => {
     let gameRestarted = false;
     this.userKeys.forEach((userKey, index) => {
@@ -59,14 +68,14 @@ class SimonController {
       this.isUserPressedWrongKey = false;
       if (this.round === this.totalRounds) {
         alert('Game is done!');
-        this.userKeys = [];
+        this.clearUserKeys();
         this.round = 1;
         this.start(true);
         return;
       }
       this._$timeout(() => {
         this.playDemoKeys();
-        this.userKeys = [];
+        this.clearUserKeys();
         this.round++;
       }, 1000);
     }
@@ -90,6 +99,12 @@ class SimonController {
   };
 
   onKeyPress = (buttonKey) => {
+    if (this.isDemo) {
+      return;
+    }
+    if (!this.isStart && !this.isPowerOn) {
+      return;
+    }
     this.userKeys.push(buttonKey.id);
     this.playSound(buttonKey.id)
       .then(() => {
@@ -117,6 +132,12 @@ class SimonController {
     if (!this.isUserPressedWrongKey) {
       this.addDemoKey();
     }
+
+    if (this.gameHasRestarted) {
+      this.addDemoKey();
+      this.gameHasRestarted = false;
+
+    }
     
     let promise = Promise.resolve();
 
@@ -125,7 +146,9 @@ class SimonController {
       promise = promise.then(() => {
         return new Promise((resolve) => {
           this._$timeout(() => {
-            this.playSound(key);
+            this.playSound(key).then(() => {
+              this.isDemo = false;
+            });
             resolve();
           }, 1500);
         });
@@ -135,8 +158,9 @@ class SimonController {
 
   restartGame = () => {
     this.isDemo = true;
-    this.userKeys = [];
+    this.clearUserKeys();
     if (this.isStrictMode) {
+      this.gameHasRestarted = true;
       this.start(true);
       this.round = 1;
       alert('Game will reset');
@@ -148,7 +172,7 @@ class SimonController {
   start = (clearDemoKeys) => {
     if (this.isPowerOn && this.isStart) {
       if (clearDemoKeys) {
-        this.demoKeys = [];
+        this.clearDemoKeys();
       }
       if (this.isDemo) {
         this.playDemoKeys();
@@ -157,12 +181,14 @@ class SimonController {
   };
 
   startWatching = () => {
-    console.log('1', 1);
     this.$scope.$watch(() => {
       return this.isPowerOn;
     }, (newVal, oldVal) => {
       if (this.isStart && newVal) {
+        this.isDemo = true;
         this.start();
+      } else {
+        this.clearDemoKeys();
       }
     });
 
@@ -170,7 +196,10 @@ class SimonController {
       return this.isStart;
     }, (newVal, oldVal) => {
       if (this.isPowerOn && newVal) {
+        this.isDemo = true;
         this.start();
+      } else {
+        this.clearDemoKeys();
       }
     });
   };

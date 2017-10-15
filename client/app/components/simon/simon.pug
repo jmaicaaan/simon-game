@@ -15,4 +15,4 @@ div
       .button-container
         .key-button(ng-repeat="buttonKey in $ctrl.buttons" ng-class="[ {true: buttonKey.class}[true], {true: 'button-light'}[buttonKey.isLight] ]" ng-click="$ctrl.onKeyPress(buttonKey)" ng-disabled="$ctrl.isDemo")
         .count-view-container
-          | {{ $ctrl.countCounter }}
+          | {{ $ctrl.demoKeys.length }}
